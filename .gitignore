@@ -1,6 +1,5 @@
 /node_modules/
 /.rpt2_cache/
-package-lock.json
 /.hass_dev/.storage
 *.log
 *.1
