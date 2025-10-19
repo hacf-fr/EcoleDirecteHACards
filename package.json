@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/hacf-fr/EcoleDirecteHACards#readme",
   "type": "commonjs",
-  "main": "ecole_directe.js",
+  "main": "EcoleDirecteHACards.js",
   "devDependencies": {
     "@babel/core": "^7.28.4",
     "@babel/preset-env": "^7.28.3",

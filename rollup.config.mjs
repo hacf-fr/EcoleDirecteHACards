@@ -53,7 +53,7 @@ const plugins = [
 
 export default [
   {
-    input: "src/ecole_directe.ts",
+    input: "src/EcoleDirecteHACards.ts",
     output: {
       dir: "dist",
       format: "es",
