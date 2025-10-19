@@ -17,10 +17,10 @@ class BaseEDCard extends LitElement {
   getCardHeader() {
     let child_attributes = this.hass.states[this.config.entity].attributes;
     let child_name =
-      typeof child_attributes["nickname"] === "string" &&
-      child_attributes["nickname"].length > 0
-        ? child_attributes["nickname"]
-        : child_attributes["full_name"];
+      typeof child_attributes["prénom"] === "string" &&
+      child_attributes["prénom"].length > 0
+        ? child_attributes["prénom"]
+        : child_attributes["nom_complet"];
     return html`<div class="ed-card-header">
       ${this.header_title} ${child_name}
     </div>`;

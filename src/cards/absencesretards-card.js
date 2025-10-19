@@ -38,14 +38,14 @@ class EDAbsencesRetardsCard extends BaseEDCard {
 
   initCard() {
     let entity_state = this.hass.states[this.config.entity];
-    if (entity_state.attributes["absences"]) {
+    if (entity_state.attributes["Absences"]) {
       this.items_attribute_key = "absences";
       this.header_title = "Absences de ";
       this.no_data_message = "Aucune absence";
     } else {
+      this.items_attribute_key = "Retards";
       this.header_title = "Retards de ";
       this.no_data_message = "Aucun retard";
-      this.items_attribute_key = "delays";
     }
   }
 

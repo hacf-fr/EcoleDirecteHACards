@@ -17,7 +17,7 @@ class EDAbsencesRetardsCardEditor extends BaseEDCardEditor {
         "Absences/Retards entity",
         "entity",
         this._config.entity,
-        "(absences|delays)"
+        "(absences|retards)"
       )}
       ${this.buildSwitchField(
         "Display header",

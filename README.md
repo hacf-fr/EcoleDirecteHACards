@@ -1,4 +1,4 @@
-# EcoleDirecteHACards - Cartes pour l'intégration Ecole Directe 
+# EcoleDirecteHACards - Cartes pour l'intégration Ecole Directe
 
 Cartes pour afficher des informations de l'intégration [Ecole Directe](https://github.com/hacf-fr/hass-ecoledirecte)
 
@@ -29,27 +29,27 @@ dim_ended_lessons: true
 
 This card can be used with all timetable sensors.
 
-### Homework
+### Devoirs
 
-![Homework card example](/doc/images/homework-card.png "Homework card example").
+![Exemple carte Devoirs](/doc/images/devoir-card.png "Exemple carte Devoirs").
 
 ```yaml
-type: custom:ecole_directe-homework-card
-entity: sensor.homework
+type: custom:ecole_directe-devoirs-card
+entity: sensor.devoirs
 display_header: true
-display_done_homework: true
-reduce_done_homework: true
+display_done_devoir: true
+reduce_done_devoir: true
 ```
 
-This card can be used with all homework sensors.
+Cette carte peut être utilisé par tous les capteurs devoirs.
 
-### Grades
+### Notes
 
-![Grades card example](/doc/images/grades-card.png "Grades card example").
+![Notes card example](/doc/images/notes-card.png "Notes card example").
 
 ```yaml
-type: custom:ecole_directe-grades-card
-entity: sensor.grades
+type: custom:ecole_directe-notes-card
+entity: sensor.notes
 grade_format: full # 'full' will display grade as "X/Y", 'short' will display "X"
 display_header: true
 display_date: true
@@ -61,16 +61,16 @@ display_coefficient: true
 display_class_min: true
 display_class_max: true
 display_new_grade_notice: true
-max_grades: null
+max_notes: null
 ```
 
-### Averages
+### Moyennes
 
-![Averages card example](/doc/images/averages-card.png "Averages card example").
+![Moyennes card example](/doc/images/moyennes-card.png "Moyennes card example").
 
 ```yaml
-type: custom:ecole_directe-averages-card
-entity: sensor.averages
+type: custom:ecole_directe-moyennes-card
+entity: sensor.moyennes
 average_format: full # 'full' will display grade as "X/Y", 'short' will display "X"
 display_header: true
 compare_with_class_average: true

@@ -6,7 +6,7 @@ const LitElement = Object.getPrototypeOf(
 
 const html = LitElement.prototype.html;
 
-class EDHomeworkCardEditor extends BaseEDCardEditor {
+class EDDevoirCardEditor extends BaseEDCardEditor {
   render() {
     if (!this.hass || !this._config) {
       return html``;
@@ -14,10 +14,10 @@ class EDHomeworkCardEditor extends BaseEDCardEditor {
 
     return html`
       ${this.buildEntityPickerField(
-        "Homework entity",
+        "Devoir entity",
         "entity",
         this._config.entity,
-        "homework_([1-3]|today|tomorrow|next_day)"
+        "devoirs_([1-3]|today|tomorrow|next_day)"
       )}
       ${this.buildSwitchField(
         "Display header",
@@ -25,14 +25,14 @@ class EDHomeworkCardEditor extends BaseEDCardEditor {
         this._config.display_header
       )}
       ${this.buildSwitchField(
-        "Reduce done homework",
-        "reduce_done_homework",
-        this._config.reduce_done_homework
+        "Reduce done devoir",
+        "reduce_done_devoir",
+        this._config.reduce_done_devoir
       )}
       ${this.buildSwitchField(
-        "Display done homework",
-        "display_done_homework",
-        this._config.display_done_homework
+        "Display done devoir",
+        "display_done_devoir",
+        this._config.display_done_devoir
       )}
       ${this.buildSwitchField(
         "Enable slider",
@@ -44,7 +44,4 @@ class EDHomeworkCardEditor extends BaseEDCardEditor {
   }
 }
 
-customElements.define(
-  "ecole_directe-homework-card-editor",
-  EDHomeworkCardEditor
-);
+customElements.define("ecole_directe-devoir-card-editor", EDDevoirCardEditor);

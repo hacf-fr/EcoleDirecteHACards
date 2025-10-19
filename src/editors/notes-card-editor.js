@@ -6,7 +6,7 @@ const LitElement = Object.getPrototypeOf(
 
 const html = LitElement.prototype.html;
 
-class EDGradesCardEditor extends BaseEDCardEditor {
+class EDNotesCardEditor extends BaseEDCardEditor {
   render() {
     if (!this.hass || !this._config) {
       return html``;
@@ -14,10 +14,10 @@ class EDGradesCardEditor extends BaseEDCardEditor {
 
     return html`
       ${this.buildEntityPickerField(
-        "Grades entity",
+        "Notes entity",
         "entity",
         this._config.entity,
-        "grades"
+        "notes"
       )}
       ${this.buildSwitchField(
         "Display header",
@@ -73,13 +73,9 @@ class EDGradesCardEditor extends BaseEDCardEditor {
         "display_new_grade_notice",
         this._config.display_new_grade_notice
       )}
-      ${this.buildNumberField(
-        "Max grades",
-        "max_grades",
-        this._config.max_grades
-      )}
+      ${this.buildNumberField("Max notes", "max_notes", this._config.max_notes)}
     `;
   }
 }
 
-customElements.define("ecole_directe-grades-card-editor", EDGradesCardEditor);
+customElements.define("ecole_directe-notes-card-editor", EDNotesCardEditor);

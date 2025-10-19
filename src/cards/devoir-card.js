@@ -14,7 +14,7 @@ Date.prototype.getWeekNumber = function () {
   return Math.ceil(((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7 + 1) / 7);
 };
 
-class EDHomeworkCard extends BaseEDCard {
+class EDDevoirCard extends BaseEDCard {
   lunchBreakRendered = false;
 
   initCard() {}
@@ -29,23 +29,23 @@ class EDHomeworkCard extends BaseEDCard {
       .replace(/^(.)/, (match) => match.toUpperCase());
   }
 
-  getDayHeader(homework, daysCount) {
-    return html`<div class="ed-homework-header">
+  getDayHeader(devoir, daysCount) {
+    return html`<div class="ed-devoir-header">
       ${this.config.enable_slider
         ? html`<span
-            class="ed-homework-header-arrow-left ${daysCount === 0
+            class="ed-devoir-header-arrow-left ${daysCount === 0
               ? "disabled"
               : ""}"
             @click=${(e) => this.changeDay("previous", e)}
             >←</span
           >`
         : ""}
-      <span class="ed-homework-header-date"
-        >${this.getFormattedDate(homework.date)}</span
+      <span class="ed-devoir-header-date"
+        >${this.getFormattedDate(devoir.date)}</span
       >
       ${this.config.enable_slider
         ? html`<span
-            class="ed-homework-header-arrow-right"
+            class="ed-devoir-header-arrow-right"
             @click=${(e) => this.changeDay("next", e)}
             >→</span
           >`
@@ -63,13 +63,11 @@ class EDHomeworkCard extends BaseEDCard {
     let hasPreviousDay =
       activeDay.previousElementSibling &&
       activeDay.previousElementSibling.classList.contains(
-        "ed-homework-day-wrapper"
+        "ed-devoir-day-wrapper"
       );
     let hasNextDay =
       activeDay.nextElementSibling &&
-      activeDay.nextElementSibling.classList.contains(
-        "ed-homework-day-wrapper"
-      );
+      activeDay.nextElementSibling.classList.contains("ed-devoir-day-wrapper");
     let newActiveDay = null;
 
     if (direction === "previous" && hasPreviousDay) {
@@ -85,46 +83,46 @@ class EDHomeworkCard extends BaseEDCard {
       hasPreviousDay =
         newActiveDay.previousElementSibling &&
         newActiveDay.previousElementSibling.classList.contains(
-          "ed-homework-day-wrapper"
+          "ed-devoir-day-wrapper"
         );
       hasNextDay =
         newActiveDay.nextElementSibling &&
         newActiveDay.nextElementSibling.classList.contains(
-          "ed-homework-day-wrapper"
+          "ed-devoir-day-wrapper"
         );
 
       if (!hasPreviousDay) {
         newActiveDay
-          .querySelector(".ed-homework-header-arrow-left")
+          .querySelector(".ed-devoir-header-arrow-left")
           .classList.add("disabled");
       }
 
       if (!hasNextDay) {
         newActiveDay
-          .querySelector(".ed-homework-header-arrow-right")
+          .querySelector(".ed-devoir-header-arrow-right")
           .classList.add("disabled");
       }
     }
   }
 
-  getHomeworkRow(homework, index) {
-    let description = homework.description.trim().replace("\n", "<br />");
+  getdevoirRow(devoir, index) {
+    let description = devoir.description.trim().replace("\n", "<br />");
 
     return html`
-      <tr class="${homework.done ? "homework-done" : ""}">
-        <td class="homework-detail">
-          <label for="homework-${index}">
-            <span class="homework-subject">${homework.subject}</span>
-            ${homework.interrogation
-              ? html`<span class="homework-controle">(Controle)</span>`
+      <tr class="${devoir.done ? "devoir-done" : ""}">
+        <td class="devoir-detail">
+          <label for="devoir-${index}">
+            <span class="devoir-subject">${devoir.subject}</span>
+            ${devoir.interrogation
+              ? html`<span class="devoir-controle">(Controle)</span>`
               : html``}
           </label>
-          <input type="checkbox" id="homework-${index}" />
-          <span class="homework-description">${unsafeHTML(description)}</span>
+          <input type="checkbox" id="devoir-${index}" />
+          <span class="devoir-description">${unsafeHTML(description)}</span>
         </td>
-        <td class="homework-status">
+        <td class="devoir-status">
           <span
-            >${homework.done
+            >${devoir.done
               ? html`<ha-icon icon="mdi:check"></ha-icon>`
               : html`<ha-icon icon="mdi:account-clock"></ha-icon>`}</span
           >
@@ -133,15 +131,15 @@ class EDHomeworkCard extends BaseEDCard {
     `;
   }
 
-  getDayRow(homework, dayTemplates, daysCount) {
+  getDayRow(devoir, dayTemplates, daysCount) {
     return html`
       <div
         class="${this.config.enable_slider
           ? "slider-enabled"
-          : ""} ed-homework-day-wrapper ${daysCount === 0 ? "active" : ""}"
+          : ""} ed-devoir-day-wrapper ${daysCount === 0 ? "active" : ""}"
       >
-        ${this.getDayHeader(homework, daysCount)}
-        <table class="${this.config.reduce_done_homework ? "reduce-done" : ""}">
+        ${this.getDayHeader(devoir, daysCount)}
+        <table class="${this.config.reduce_done_devoir ? "reduce-done" : ""}">
           ${dayTemplates}
         </table>
       </div>
@@ -154,52 +152,47 @@ class EDHomeworkCard extends BaseEDCard {
     }
 
     const stateObj = this.hass.states[this.config.entity];
-    const homework =
-      this.hass.states[this.config.entity].attributes["homework"];
+    const devoir = this.hass.states[this.config.entity].attributes["devoir"];
 
     if (stateObj) {
       const itemTemplates = [];
       let dayTemplates = [];
       let daysCount = 0;
 
-      if (homework && homework.length > 0) {
-        if (homework[0].Erreur) {
-          return html`<div class="ed-card-no-data">${homework[0].Erreur}</div>`;
+      if (devoir && devoir.length > 0) {
+        if (devoir[0].Erreur) {
+          return html`<div class="ed-card-no-data">${devoir[0].Erreur}</div>`;
         }
-        let latestHomeworkDay = this.getFormattedDate(homework[0].date);
-        for (let index = 0; index < homework.length; index++) {
-          let hw = homework[index];
+        let latestdevoirDay = this.getFormattedDate(devoir[0].date);
+        for (let index = 0; index < devoir.length; index++) {
+          let hw = devoir[index];
           let currentFormattedDate = this.getFormattedDate(hw.date);
 
-          if (hw.done === true && this.config.display_done_homework === false) {
+          if (hw.done === true && this.config.display_done_devoir === false) {
             continue;
           }
 
-          // if homework for a new day
-          if (latestHomeworkDay !== currentFormattedDate) {
+          // if devoir for a new day
+          if (latestdevoirDay !== currentFormattedDate) {
             // if previous day has lessons
             if (dayTemplates.length > 0) {
               itemTemplates.push(
-                this.getDayRow(homework[index - 1], dayTemplates, daysCount)
+                this.getDayRow(devoir[index - 1], dayTemplates, daysCount)
               );
               dayTemplates = [];
             }
 
-            latestHomeworkDay = currentFormattedDate;
+            latestdevoirDay = currentFormattedDate;
             daysCount++;
           }
 
-          dayTemplates.push(this.getHomeworkRow(hw, index));
+          dayTemplates.push(this.getdevoirRow(hw, index));
         }
 
-        // if there are homework for the day and not limit on the current week or limit and current week
+        // if there are devoir for the day and not limit on the current week or limit and current week
         if (dayTemplates.length > 0) {
           itemTemplates.push(
-            this.getDayRow(
-              homework[homework.length - 1],
-              dayTemplates,
-              daysCount
-            )
+            this.getDayRow(devoir[devoir.length - 1], dayTemplates, daysCount)
           );
         }
       }
@@ -210,7 +203,7 @@ class EDHomeworkCard extends BaseEDCard {
 
       return html` <ha-card
         id="${this.config.entity}-card"
-        class="${this.config.enable_slider ? "ed-homework-card-slider" : ""}"
+        class="${this.config.enable_slider ? "ed-devoir-card-slider" : ""}"
       >
         ${this.config.display_header ? this.getCardHeader() : ""}
         ${itemTemplates}
@@ -230,8 +223,8 @@ class EDHomeworkCard extends BaseEDCard {
     const defaultConfig = {
       entity: null,
       display_header: true,
-      reduce_done_homework: true,
-      display_done_homework: true,
+      reduce_done_devoir: true,
+      display_done_devoir: true,
       enable_slider: false,
     };
 
@@ -247,30 +240,30 @@ class EDHomeworkCard extends BaseEDCard {
   static get styles() {
     return css`
       ${super.styles}
-      .ed-homework-card-slider .ed-homework-day-wrapper {
+      .ed-devoir-card-slider .ed-devoir-day-wrapper {
         display: none;
       }
-      .ed-homework-card-slider .ed-homework-day-wrapper.active {
+      .ed-devoir-card-slider .ed-devoir-day-wrapper.active {
         display: block;
       }
-      .ed-homework-card-slider .ed-homework-header-date {
+      .ed-devoir-card-slider .ed-devoir-header-date {
         display: inline-block;
         text-align: center;
         width: 120px;
       }
-      .ed-homework-header-arrow-left,
-      .ed-homework-header-arrow-right {
+      .ed-devoir-header-arrow-left,
+      .ed-devoir-header-arrow-right {
         cursor: pointer;
       }
-      .ed-homework-header-arrow-left.disabled,
-      .ed-homework-header-arrow-right.disabled {
+      .ed-devoir-header-arrow-left.disabled,
+      .ed-devoir-header-arrow-right.disabled {
         opacity: 0.3;
         pointer-events: none;
       }
-      div:not(.slider-enabled) > .ed-homework-header {
+      div:not(.slider-enabled) > .ed-devoir-header {
         border-bottom: 2px solid grey;
       }
-      .slider-enabled > .ed-homework-header {
+      .slider-enabled > .ed-devoir-header {
         padding-top: 0;
         text-align: center;
       }
@@ -287,36 +280,36 @@ class EDHomeworkCard extends BaseEDCard {
         padding-top: 8px;
         text-align: left;
       }
-      td.homework-detail {
+      td.devoir-detail {
         padding: 0;
         padding-top: 8px;
         padding-bottom: 8px;
       }
-      span.homework-subject {
+      span.devoir-subject {
         display: block;
         font-weight: bold;
       }
-      span.homework-controle {
+      span.devoir-controle {
         display: block;
         font-weight: bold;
         color: red;
       }
-      span.homework-description {
+      span.devoir-description {
         font-size: 0.9em;
       }
-      td.homework-status {
+      td.devoir-status {
         width: 5%;
       }
-      .reduce-done .homework-done label:hover {
+      .reduce-done .devoir-done label:hover {
         cusor: pointer;
       }
-      .reduce-done .homework-done .homework-description {
+      .reduce-done .devoir-done .devoir-description {
         display: none;
       }
-      .reduce-done .homework-done input:checked + .homework-description {
+      .reduce-done .devoir-done input:checked + .devoir-description {
         display: block;
       }
-      .homework-detail input {
+      .devoir-detail input {
         display: none;
       }
     `;
@@ -325,24 +318,24 @@ class EDHomeworkCard extends BaseEDCard {
   static getStubConfig() {
     return {
       display_header: true,
-      reduce_done_homework: true,
-      display_done_homework: true,
+      reduce_done_devoir: true,
+      display_done_devoir: true,
       enable_slider: false,
     };
   }
 
   static getConfigElement() {
-    return document.createElement("ecole_directe-homework-card-editor");
+    return document.createElement("ecole_directe-devoir-card-editor");
   }
 }
 
-customElements.define("ecole_directe-homework-card", EDHomeworkCard);
+customElements.define("ecole_directe-devoir-card", EDDevoirCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "ecole_directe-homework-card",
+  type: "ecole_directe-devoir-card",
   name: "Carte des devoirs pour Ecole Directe",
   description: "Affiche les devoirs pour Ecole Directe",
   documentationURL:
-    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#homework",
+    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#devoir",
 });

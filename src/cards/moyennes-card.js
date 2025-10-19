@@ -278,13 +278,13 @@ class EDAveragesCard extends BaseEDCard {
   }
 }
 
-customElements.define("ecole_directe-averages-card", EDAveragesCard);
+customElements.define("ecole_directe-moyennes-card", EDAveragesCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "ecole_directe-averages-card",
+  type: "ecole_directe-moyennes-card",
   name: "Carte des moyennes pour Ecole Directe",
   description: "Affiche les moyennes pour Ecole Directe",
   documentationURL:
-    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#averages",
+    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#moyennes",
 });
