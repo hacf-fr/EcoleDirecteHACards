@@ -1,0 +1,8 @@
+/node_modules/
+/.rpt2_cache/
+package-lock.json
+/dist
+/.hass_dev/.storage
+*.log
+*.1
+*.db

@@ -1,0 +1,50 @@
+{
+  "name": "ecole_directe_cards",
+  "version": "1.0.0",
+  "description": "Home Assistant Cards for Ecole Directe",
+  "scripts": {
+  	"start": "rollup -c --watch --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
+    "format": "prettier --write .",
+    "start:hass": "docker run --rm -p8123:8123 -v ./.hass_dev:/config homeassistant/home-assistant:stable"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hacf-fr/EcoleDirecteHACards.git"
+  },
+  "keywords": [
+  	"HomeAssistant",
+    "lovelace"
+  ],
+  "author": "Giga77",
+  "contributors": [
+    "Giga77 (https://github.com/Giga77)"
+  ],
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/hacf-fr/EcoleDirecteHACards/issues"
+  },
+  "homepage": "https://github.com/hacf-fr/EcoleDirecteHACards#readme",
+  "type": "commonjs",
+  "main": "ecole_directe.js",
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@material/web": "^2.4.0",
+    "@rollup/plugin-babel": "^6.1.0",
+    "@rollup/plugin-commonjs": "^28.0.8",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "eslint": "^9.38.0",
+    "prettier": "^3.6.2",
+    "rollup": "^4.52.5",
+    "rollup-plugin-serve": "^3.0.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "home-assistant-js-websocket": "^9.5.0",
+    "lit": "^3.3.1"
+  }
+}
