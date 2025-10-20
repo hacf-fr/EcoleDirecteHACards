@@ -109,12 +109,12 @@ class EDDevoirCard extends BaseEDCard {
     let description = devoir.description.trim().replace("\n", "<br />");
 
     return html`
-      <tr class="${devoir.done ? "devoir-done" : ""}">
+      <tr class="${devoir.effectue ? "devoir-done" : ""}">
         <td class="devoir-detail">
           <label for="devoir-${index}">
-            <span class="devoir-subject">${devoir.subject}</span>
+            <span class="devoir-subject">${devoir.matiere}</span>
             ${devoir.interrogation
-              ? html`<span class="devoir-controle">(Controle)</span>`
+              ? html`<span class="devoir-controle">(Contrôle)</span>`
               : html``}
           </label>
           <input type="checkbox" id="devoir-${index}" />
@@ -122,7 +122,7 @@ class EDDevoirCard extends BaseEDCard {
         </td>
         <td class="devoir-status">
           <span
-            >${devoir.done
+            >${devoir.effectue
               ? html`<ha-icon icon="mdi:check"></ha-icon>`
               : html`<ha-icon icon="mdi:account-clock"></ha-icon>`}</span
           >
@@ -152,7 +152,7 @@ class EDDevoirCard extends BaseEDCard {
     }
 
     const stateObj = this.hass.states[this.config.entity];
-    const devoir = this.hass.states[this.config.entity].attributes["devoir"];
+    const devoir = this.hass.states[this.config.entity].attributes["Devoirs"];
 
     if (stateObj) {
       const itemTemplates = [];
@@ -168,7 +168,10 @@ class EDDevoirCard extends BaseEDCard {
           let hw = devoir[index];
           let currentFormattedDate = this.getFormattedDate(hw.date);
 
-          if (hw.done === true && this.config.display_done_devoir === false) {
+          if (
+            hw.effectue === true &&
+            this.config.display_done_devoir === false
+          ) {
             continue;
           }
 
@@ -325,17 +328,17 @@ class EDDevoirCard extends BaseEDCard {
   }
 
   static getConfigElement() {
-    return document.createElement("ecole_directe-devoir-card-editor");
+    return document.createElement("ecole_directe-devoirs-card-editor");
   }
 }
 
-customElements.define("ecole_directe-devoir-card", EDDevoirCard);
+customElements.define("ecole_directe-devoirs-card", EDDevoirCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "ecole_directe-devoir-card",
+  type: "ecole_directe-devoirs-card",
   name: "Carte des devoirs pour Ecole Directe",
   description: "Affiche les devoirs pour Ecole Directe",
   documentationURL:
-    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#devoir",
+    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#devoirs",
 });

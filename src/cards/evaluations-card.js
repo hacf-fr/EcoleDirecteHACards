@@ -8,7 +8,7 @@ const css = LitElement.prototype.css;
 
 class EDEvaluationsCard extends BaseEDCard {
   initCard() {
-    this.items_attribute_key = "evaluations";
+    this.items_attribute_key = "Evaluations";
     this.header_title = "Evaluations de ";
     this.no_data_message = "Pas d'évaluation à afficher";
   }
@@ -25,15 +25,14 @@ class EDEvaluationsCard extends BaseEDCard {
 
   getAcquisitionRow(acquisition) {
     return html`<tr class="acquisition-row">
-      <td>${acquisition.name}</td>
+      <td>${acquisition.competence}</td>
       <td>${this.getAcquisitionIcon(acquisition)}</td>
     </tr>`;
   }
 
   getAcquisitionIcon(acquisition) {
     const remappedEvaluations =
-      this.config.mapping_evaluations[acquisition.abbreviation] ||
-      acquisition.abbreviation;
+      this.config.mapping_evaluations[acquisition.valeur] || acquisition.valeur;
     let icon = "";
     if (remappedEvaluations === "A+") {
       icon = "+";
@@ -71,21 +70,11 @@ class EDEvaluationsCard extends BaseEDCard {
         </td>
         <td class="evaluation-description">
           <label for="evaluation-full-detail-${index}">
-            <span class="evaluation-subject">${evaluation.subject}</span>
+            <span class="evaluation-subject">${evaluation.matiere}</span>
           </label>
-          ${this.config.display_teacher
-            ? html`<span class="evaluation-teacher"
-                >${evaluation.teacher}</span
-              >`
-            : ""}
           <input type="checkbox" id="evaluation-full-detail-${index}" />
           ${this.config.display_comment
-            ? html`<span class="evaluation-comment">${evaluation.name}</span>`
-            : ""}
-          ${this.config.display_description
-            ? html`<span class="evaluation-description"
-                >${evaluation.description}</span
-              >`
+            ? html`<span class="evaluation-comment">${evaluation.devoir}</span>`
             : ""}
           ${this.config.display_date
             ? html`<span class="evaluation-date"

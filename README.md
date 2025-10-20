@@ -12,9 +12,9 @@ HACS > Lovelace > **Ecole Directe Cards**
 
 ## Cards
 
-### Timetable
+### Emploi du temps
 
-![Timetable card example](/doc/images/timetable-card.png "Timetable card example").
+![Emploi du temps card example](/doc/images/timetable-card.png "Emploi du temps card example").
 
 ```yaml
 type: custom:ecole_directe-timetable-card

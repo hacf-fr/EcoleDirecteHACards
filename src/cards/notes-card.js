@@ -9,7 +9,7 @@ const css = LitElement.prototype.css;
 
 class EDGradesCard extends BaseEDCard {
   initCard() {
-    this.items_attribute_key = "grades";
+    this.items_attribute_key = "notes";
     this.header_title = "Notes de ";
     this.no_data_message = "Aucune note disponible";
   }
@@ -25,29 +25,31 @@ class EDGradesCard extends BaseEDCard {
   }
 
   getGradeRow(gradeData) {
-    let grade = parseFloat(gradeData.grade.replace(",", "."));
+    let grade = parseFloat(gradeData.note.replace(",", "."));
 
     let grade_classes = [];
 
     if (this.config.compare_with_ratio !== null) {
       let comparison_ratio = parseFloat(this.config.compare_with_ratio);
-      let grade_ratio = grade / parseFloat(gradeData.out_of.replace(",", "."));
+      let grade_ratio = grade / parseFloat(gradeData.sur.replace(",", "."));
       grade_classes.push(
         grade_ratio >= comparison_ratio ? "above-ratio" : "below-ratio"
       );
     } else if (
       this.config.compare_with_class_average &&
-      gradeData.class_average
+      gradeData.moyenne_classe
     ) {
-      let class_average = parseFloat(gradeData.class_average.replace(",", "."));
+      let class_average = parseFloat(
+        gradeData.moyenne_classe.replace(",", ".")
+      );
       grade_classes.push(
         grade > class_average ? "above-average" : "below-average"
       );
     }
 
-    let formatted_grade = gradeData.grade_out_of;
+    let formatted_grade = gradeData.note_sur;
     if (this.config.grade_format === "short") {
-      formatted_grade = gradeData.grade;
+      formatted_grade = gradeData.note;
     }
 
     if (this.config.display_new_grade_notice) {
@@ -66,9 +68,9 @@ class EDGradesCard extends BaseEDCard {
       <tr class="${grade_classes.join(" ")}">
         <td class="grade-color"><span></span></td>
         <td class="grade-description">
-          <span class="grade-subject">${gradeData.subject}</span>
+          <span class="grade-subject">${gradeData.matiere}</span>
           ${this.config.display_comment
-            ? html`<span class="grade-comment">${gradeData.comment}</span>`
+            ? html`<span class="grade-comment">${gradeData.commentaire}</span>`
             : ""}
           ${this.config.display_date
             ? html`<span class="grade-date"
@@ -83,9 +85,9 @@ class EDGradesCard extends BaseEDCard {
         </td>
         <td class="grade-detail">
           <span class="grade-value">${formatted_grade}</span>
-          ${this.config.display_class_average && gradeData.class_average
+          ${this.config.display_class_average && gradeData.moyenne_classe
             ? html`<span class="grade-class-average"
-                >Moy. ${gradeData.class_average}</span
+                >Moy. ${gradeData.moyenne_classe}</span
               >`
             : ""}
           ${this.config.display_class_min && gradeData.min
@@ -252,17 +254,17 @@ class EDGradesCard extends BaseEDCard {
   }
 
   static getConfigElement() {
-    return document.createElement("ecole_directe-grades-card-editor");
+    return document.createElement("ecole_directe-notes-card-editor");
   }
 }
 
-customElements.define("ecole_directe-grades-card", EDGradesCard);
+customElements.define("ecole_directe-notes-card", EDGradesCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "ecole_directe-grades-card",
+  type: "ecole_directe-notes-card",
   name: "Carte des notes pour Ecole Directe",
   description: "Affiche les notes pour Ecole Directe",
   documentationURL:
-    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#grades",
+    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#notes",
 });

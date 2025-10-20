@@ -56,7 +56,7 @@ class EDTimetableCard extends BaseEDCard {
 
     let content = html`
       <tr
-        class="${lesson.canceled ? "lesson-canceled" : ""} ${this.config
+        class="${lesson.is_annule ? "lesson-canceled" : ""} ${this.config
           .dim_ended_lessons && endAt < currentDate
           ? "lesson-ended"
           : ""}"
@@ -72,17 +72,17 @@ class EDTimetableCard extends BaseEDCard {
           <span class="lesson-name">${lesson.lesson}</span>
           ${this.config.display_classroom
             ? html`<span class="lesson-classroom">
-                ${lesson.classroom ? "Salle " + lesson.classroom : ""}
-                ${lesson.classroom && this.config.display_teacher ? ", " : ""}
+                ${lesson.salle ? "Salle " + lesson.salle : ""}
+                ${lesson.salle && this.config.display_teacher ? ", " : ""}
               </span>`
             : ""}
           ${this.config.display_teacher
-            ? html`<span class="lesson-teacher"> ${lesson.teacher_name} </span>`
+            ? html`<span class="lesson-teacher"> ${lesson.prof} </span>`
             : ""}
         </td>
         <td>
-          ${lesson.status
-            ? html`<span class="lesson-status">${lesson.status}</span>`
+          ${lesson.dispense
+            ? html`<span class="lesson-status">${lesson.dispense}</span>`
             : ""}
         </td>
       </tr>
@@ -199,7 +199,8 @@ class EDTimetableCard extends BaseEDCard {
 
     const stateObj = this.hass.states[this.config.entity];
 
-    const lessons = this.hass.states[this.config.entity].attributes["lessons"];
+    const lessons =
+      this.hass.states[this.config.entity].attributes["Emploi du temps"];
 
     if (stateObj) {
       this.lunchBreakRendered = false;
@@ -219,16 +220,16 @@ class EDTimetableCard extends BaseEDCard {
         let currentFormattedDate = this.getFormattedDate(lesson);
         let endOfDay = new Date(lesson.end_at);
 
-        if (!lesson.canceled) {
+        if (!lesson.isAnnule) {
           if (dayStartAt === null) {
             dayStartAt = lesson.start_at;
           }
           dayEndAt = lesson.end_at;
         }
 
-        if (lesson.canceled && index < lessons.length - 1) {
+        if (lesson.isAnnule && index < lessons.length - 1) {
           let nextLesson = lessons[index + 1];
-          if (lesson.start_at === nextLesson.start_at && !nextLesson.canceled) {
+          if (lesson.start_at === nextLesson.start_at && !nextLesson.isAnnule) {
             continue;
           }
         }
@@ -437,17 +438,17 @@ class EDTimetableCard extends BaseEDCard {
   }
 
   static getConfigElement() {
-    return document.createElement("ecole_directe-timetable-card-editor");
+    return document.createElement("ecole_directe-emploi_temps-card-editor");
   }
 }
 
-customElements.define("ecole_directe-timetable-card", EDTimetableCard);
+customElements.define("ecole_directe-emploi_temps-card", EDTimetableCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "ecole_directe-timetable-card",
+  type: "ecole_directe-emploi_temps-card",
   name: "Carte de l'emploi du temps pour Ecole Directe",
   description: "Affiche l'emploi du temps pour Ecole Directe",
   documentationURL:
-    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#timetable",
+    "https://github.com/hacf-fr/EcoleDirecteHACards?tab=readme-ov-file#emploi_temps",
 });

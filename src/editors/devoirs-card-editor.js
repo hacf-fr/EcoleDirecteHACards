@@ -44,4 +44,4 @@ class EDDevoirCardEditor extends BaseEDCardEditor {
   }
 }
 
-customElements.define("ecole_directe-devoir-card-editor", EDDevoirCardEditor);
+customElements.define("ecole_directe-devoirs-card-editor", EDDevoirCardEditor);

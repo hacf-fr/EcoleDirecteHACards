@@ -12,14 +12,14 @@ class EDAbsencesRetardsCard extends BaseEDCard {
       <tr>
         <td class="absence-status">
           <span
-            >${absence_retard.justified
+            >${absence_retard.justifie
               ? html`<ha-icon icon="mdi:check"></ha-icon>`
               : html`<ha-icon icon="mdi:clock-alert-outline"></ha-icon>`}</span
           >
         </td>
         <td>
           <span
-            style="background-color:${absence_retard.justified
+            style="background-color:${absence_retard.justifie
               ? "#107c41"
               : "#e73a1f"}"
           ></span>
@@ -39,7 +39,7 @@ class EDAbsencesRetardsCard extends BaseEDCard {
   initCard() {
     let entity_state = this.hass.states[this.config.entity];
     if (entity_state.attributes["Absences"]) {
-      this.items_attribute_key = "absences";
+      this.items_attribute_key = "Absences";
       this.header_title = "Absences de ";
       this.no_data_message = "Aucune absence";
     } else {
@@ -60,8 +60,7 @@ class EDAbsencesRetardsCard extends BaseEDCard {
         if (this.config.max && this.config.max < index) {
           break;
         }
-        let absence = absencesRetards[index];
-        dayTemplates.push(this.getAbsencesRetardsRow(absence));
+        dayTemplates.push(this.getAbsencesRetardsRow(absencesRetards[index]));
       }
 
       if (absencesRetards.length > 0) {
