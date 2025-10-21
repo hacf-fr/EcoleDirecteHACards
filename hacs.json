@@ -1,6 +1,7 @@
 {
   "name": "Ecole Directe Cards",
   "filename": "EcoleDirecteHACards.js",
+  "country": ["FR"],
   "homeassistant": "2025.6",
   "render_readme": true
 }
