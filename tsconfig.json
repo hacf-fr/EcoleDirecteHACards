@@ -16,7 +16,7 @@
     "experimentalDecorators": true,
     "outDir": "dist",
     "rootDir": ".",
-    "sourceMap": true,
+    "sourceMap": false,
     "allowSyntheticDefaultImports": true
   },
   "include": ["**/*.ts"],
