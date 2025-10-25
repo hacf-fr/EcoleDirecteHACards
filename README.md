@@ -4,21 +4,24 @@ Cartes pour afficher des informations de l'intégration [Ecole Directe](https://
 
 ## Installation
 
-### Using HACS
+### Avec HACS
+Cliquez ici : [![Installation via HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=hacf-fr&repository=EcoleDirecteHACards&category=Dashboard)
 
-Add this repository to HACS : https://github.com/hacf-fr/EcoleDirecteHACards.git
-then:  
-HACS > Lovelace > **Ecole Directe Cards**
+Ou sinon :
+Allez sur l'onglet HACS
+Dans le filtre, taper "ecole", choisir **Ecole Directe Cards** et cliquer sur le bouton "Télécharger" en bas à droite.
 
-## Cards
+![Installation via HACS](/doc/images/HACS-installation.png "Installation via HACS").
+
+## Cartes
 
 ### Emploi du temps
 
-![Emploi du temps card example](/doc/images/timetable-card.png "Emploi du temps card example").
+![Exemple carte Emploi du temps](/doc/images/emploi_temps-card.png "Exemple carte Emploi du temps").
 
 ```yaml
-type: custom:ecole_directe-timetable-card
-entity: sensor.timetable_next_day
+type: custom:ecole_directe-emploi_temps-card
+entity: sensor.emploi_temps
 display_header: true
 display_lunch_break: true
 display_classroom: true
@@ -27,7 +30,7 @@ display_day_hours: true
 dim_ended_lessons: true
 ```
 
-This card can be used with all timetable sensors.
+Cette carte peut être utilisée avec toutes les capteurs "emploi du temps".
 
 ### Devoirs
 
@@ -45,7 +48,7 @@ Cette carte peut être utilisé par tous les capteurs devoirs.
 
 ### Notes
 
-![Notes card example](/doc/images/notes-card.png "Notes card example").
+![Exemple carte Notes](/doc/images/notes-card.png "Exemple carte Notes").
 
 ```yaml
 type: custom:ecole_directe-notes-card
@@ -61,7 +64,6 @@ display_coefficient: true
 display_class_min: true
 display_class_max: true
 display_new_grade_notice: true
-max_notes: null
 ```
 
 ### Moyennes
@@ -108,3 +110,7 @@ display_header: true
 max: null
 child_name: null
 ```
+
+Toutes ces cartes sont en grosse partie copiées de ce repo et adaptées pour Ecole Directe : https://github.com/delphiki/lovelace-pronote
+
+Merci à [delphiki](https://github.com/delphiki)
