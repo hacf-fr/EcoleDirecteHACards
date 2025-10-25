@@ -103,19 +103,6 @@ class EDEvaluationsCard extends BaseEDCard {
       const evaluationsRows = [];
       const itemTemplates = [];
 
-      // Va chercher les couleurs des matières
-      // const lessons =
-      //   this.hass.states[
-      //     this.config.entity.replace("_evaluations", "_period_s_timetable")
-      //   ].attributes["lessons"];
-      // var lessons_colors = {};
-      // if (lessons) {
-      //   for (let index = 0; index < lessons.length; index++) {
-      //     let lesson = lessons[index];
-      //     lessons_colors[lesson.lesson] = lesson.background_color;
-      //   }
-      // }
-
       for (let index = 0; index < max_evaluations; index++) {
         let evaluation = evaluations[index];
         evaluationsRows.push(

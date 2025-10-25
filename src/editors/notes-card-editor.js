@@ -73,7 +73,6 @@ class EDNotesCardEditor extends BaseEDCardEditor {
         "display_new_grade_notice",
         this._config.display_new_grade_notice
       )}
-      ${this.buildNumberField("Max notes", "max_notes", this._config.max_notes)}
     `;
   }
 }

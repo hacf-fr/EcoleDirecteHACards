@@ -53,7 +53,7 @@ class BaseEDCard extends LitElement {
   // Définit la configuration de la carte
   setConfig(config) {
     if (!config.entity) {
-      throw new Error("You need to define an entity");
+      throw new Error("Vous devez définir une entité");
     }
 
     this.config = {

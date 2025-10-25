@@ -220,7 +220,7 @@ class EDDevoirCard extends BaseEDCard {
 
   setConfig(config) {
     if (!config.entity) {
-      throw new Error("You need to define an entity");
+      throw new Error("Vous devez définir une entité");
     }
 
     const defaultConfig = {

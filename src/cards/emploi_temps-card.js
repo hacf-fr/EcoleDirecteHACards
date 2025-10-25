@@ -314,20 +314,20 @@ class EDTimetableCard extends BaseEDCard {
 
   setConfig(config) {
     if (!config.entity) {
-      throw new Error("You need to define an entity");
+      throw new Error("Vous devez définir une entité");
     }
 
     const defaultConfig = {
       entity: null,
       display_header: true,
-      display_lunch_break: true,
       display_classroom: true,
       display_teacher: true,
       display_day_hours: true,
+      display_lunch_break: true,
       dim_ended_lessons: true,
       enable_slider: false,
-      display_free_time_slots: true,
       switch_to_next_day: false,
+      display_free_time_slots: true,
     };
 
     this.config = {

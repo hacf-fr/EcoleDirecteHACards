@@ -17,7 +17,7 @@ class EDTimetableCardEditor extends BaseEDCardEditor {
         "Timetable entity",
         "entity",
         this._config.entity,
-        "timetable_([1-3]|today|tomorrow|next_day)"
+        "emploi_du_temps_(semaine_en_cours|semaine_suivante|semaine_apres_suivante|aujourd_hui|demain|jour_suivant)"
       )}
       ${this.buildSwitchField(
         "Display header",
@@ -78,6 +78,6 @@ class EDTimetableCardEditor extends BaseEDCardEditor {
 }
 
 customElements.define(
-  "ecole_directe-timetable-card-editor",
+  "ecole_directe-emploi_temps-card-editor",
   EDTimetableCardEditor
 );

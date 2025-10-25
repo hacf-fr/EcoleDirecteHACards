@@ -17,7 +17,7 @@ class EDDevoirCardEditor extends BaseEDCardEditor {
         "Devoir entity",
         "entity",
         this._config.entity,
-        "devoirs_([1-3]|today|tomorrow|next_day)"
+        "devoirs_(semaine_en_cours|semaine_suivante|semaine_apres_suivante|aujourd_hui|demain|jour_suivant)"
       )}
       ${this.buildSwitchField(
         "Display header",
