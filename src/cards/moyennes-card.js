@@ -6,15 +6,15 @@ const LitElement = Object.getPrototypeOf(
 const html = LitElement.prototype.html;
 const css = LitElement.prototype.css;
 
-class EDAveragesCard extends BaseEDCard {
+class EDMoyennesCard extends BaseEDCard {
   initCard() {
-    this.items_attribute_key = "averages";
+    this.items_attribute_key = "Disciplines";
     this.header_title = "Moyennes de ";
     this.no_data_message = "Aucune moyenne";
   }
 
   getOverallAverageRow() {
-    let overall_average_entity = `${this.config.entity}_overall_average`;
+    let overall_average_entity = `${this.config.entity}`;
 
     if (!this.hass.states[overall_average_entity]) {
       return html``;
@@ -31,10 +31,8 @@ class EDAveragesCard extends BaseEDCard {
 
     if (this.config.compare_with_ratio !== null) {
       let comparison_ratio = parseFloat(this.config.compare_with_ratio);
-      let average_ratio =
-        average / parseFloat(overall_average.out_of.replace(",", "."));
       average_classes.push(
-        average_ratio >= comparison_ratio ? "above-ratio" : "below-ratio"
+        average >= comparison_ratio ? "above-ratio" : "below-ratio"
       );
     }
 
@@ -54,52 +52,50 @@ class EDAveragesCard extends BaseEDCard {
   }
 
   getAverageRow(averageData) {
-    let average = parseFloat(averageData.average.replace(",", "."));
+    let average = parseFloat(averageData.moyenne.replace(",", "."));
 
     let average_classes = [];
 
     if (this.config.compare_with_ratio !== null) {
       let comparison_ratio = parseFloat(this.config.compare_with_ratio);
-      let average_ratio =
-        average / parseFloat(averageData.out_of.replace(",", "."));
       average_classes.push(
-        average_ratio >= comparison_ratio ? "above-ratio" : "below-ratio"
+        average >= comparison_ratio ? "above-ratio" : "below-ratio"
       );
-    } else if (this.config.compare_with_class_average && averageData.class) {
-      let class_average = parseFloat(averageData.class.replace(",", "."));
+    } else if (
+      this.config.compare_with_class_average &&
+      averageData.moyenneClasse
+    ) {
+      let class_average = parseFloat(
+        averageData.moyenneClasse.replace(",", ".")
+      );
       average_classes.push(
         average > class_average ? "above-average" : "below-average"
       );
     }
 
-    let formatted_average = averageData.average + "/" + averageData.out_of;
-    if (this.config.average_format === "short") {
-      formatted_average = averageData.average;
-    }
-
     return html`
       <tr class="${average_classes.join(" ")}">
         <td class="average-color">
-          <span style="background-color:${averageData.background_color}"></span>
+          <span style="background-color:Grey"></span>
         </td>
         <td class="average-description">
-          <span class="average-subject">${averageData.subject}</span>
+          <span class="average-subject">${averageData.nom}</span>
         </td>
         <td class="average-detail">
-          <span class="average-value">${formatted_average}</span>
-          ${this.config.display_class_average && averageData.class
+          <span class="average-value">${averageData.moyenne}</span>
+          ${this.config.display_class_average && averageData.moyenneClasse
             ? html`<span class="average-class-average"
-                >Classe ${averageData.class}</span
+                >Classe ${averageData.moyenneClasse}</span
               >`
             : ""}
-          ${this.config.display_class_min && averageData.min
+          ${this.config.display_class_min && averageData.moyenneMin
             ? html`<span class="average-class-min"
-                >Min. ${averageData.min}</span
+                >Min. ${averageData.moyenneMin}</span
               >`
             : ""}
-          ${this.config.display_class_max && averageData.max
+          ${this.config.display_class_max && averageData.moyenneMax
             ? html`<span class="average-class-max"
-                >Max. ${averageData.max}</span
+                >Max. ${averageData.moyenneMax}</span
               >`
             : ""}
         </td>
@@ -111,23 +107,23 @@ class EDAveragesCard extends BaseEDCard {
     const stateObj = this.hass.states[this.config.entity];
 
     if (stateObj) {
-      const averages = this.getItems();
+      const moyennes = this.getItems();
       const itemTemplates = [];
-      const averagesRows = [];
+      const moyennesRows = [];
 
       if (this.config.display_overall_average) {
-        averagesRows.push(this.getOverallAverageRow(averages));
+        moyennesRows.push(this.getOverallAverageRow(moyennes));
       }
 
-      for (let index = 0; index < averages.length; index++) {
-        let average = averages[index];
-        averagesRows.push(this.getAverageRow(average));
+      for (let index = 0; index < moyennes.length; index++) {
+        let average = moyennes[index];
+        moyennesRows.push(this.getAverageRow(average));
       }
 
-      if (averagesRows.length > 0) {
+      if (moyennesRows.length > 0) {
         itemTemplates.push(
           html`<table>
-            ${averagesRows}
+            ${moyennesRows}
           </table>`
         );
       } else {
@@ -142,7 +138,6 @@ class EDAveragesCard extends BaseEDCard {
 
   getDefaultConfig() {
     return {
-      average_format: "full",
       display_header: true,
       display_class_average: true,
       compare_with_class_average: true,
@@ -263,7 +258,6 @@ class EDAveragesCard extends BaseEDCard {
 
   static getStubConfig() {
     return {
-      average_format: "full",
       display_header: true,
       display_class_average: true,
       compare_with_class_average: true,
@@ -274,11 +268,11 @@ class EDAveragesCard extends BaseEDCard {
   }
 
   static getConfigElement() {
-    return document.createElement("ecole_directe-averages-card-editor");
+    return document.createElement("ecole_directe-moyennes-card-editor");
   }
 }
 
-customElements.define("ecole_directe-moyennes-card", EDAveragesCard);
+customElements.define("ecole_directe-moyennes-card", EDMoyennesCard);
 
 window.customCards = window.customCards || [];
 window.customCards.push({

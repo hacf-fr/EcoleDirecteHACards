@@ -6,7 +6,7 @@ const LitElement = Object.getPrototypeOf(
 
 const html = LitElement.prototype.html;
 
-class EDAveragesCardEditor extends BaseEDCardEditor {
+class EDMoyennesCardEditor extends BaseEDCardEditor {
   render() {
     if (!this.hass || !this._config) {
       return html``;
@@ -14,24 +14,15 @@ class EDAveragesCardEditor extends BaseEDCardEditor {
 
     return html`
       ${this.buildEntityPickerField(
-        "Averages entity",
+        "Cpateur moyennes",
         "entity",
         this._config.entity,
-        "averages"
+        "moyenne_generale"
       )}
       ${this.buildSwitchField(
         "Display header",
         "display_header",
         this._config.display_header
-      )}
-      ${this.buildSelectField(
-        "Average format",
-        "average_format",
-        [
-          { value: "full", label: "Full" },
-          { value: "short", label: "Short" },
-        ],
-        this._config.average_format
       )}
       ${this.buildSwitchField(
         "Display class average",
@@ -70,6 +61,6 @@ class EDAveragesCardEditor extends BaseEDCardEditor {
 }
 
 customElements.define(
-  "ecole_directe-averages-card-editor",
-  EDAveragesCardEditor
+  "ecole_directe-moyennes-card-editor",
+  EDMoyennesCardEditor
 );

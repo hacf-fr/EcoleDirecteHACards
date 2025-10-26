@@ -5,6 +5,7 @@ Cartes pour afficher des informations de l'intégration [Ecole Directe](https://
 ## Installation
 
 ### Avec HACS
+
 Cliquez ici : [![Installation via HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=hacf-fr&repository=EcoleDirecteHACards&category=Dashboard)
 
 Ou sinon :
@@ -73,10 +74,9 @@ display_new_grade_notice: true
 ```yaml
 type: custom:ecole_directe-moyennes-card
 entity: sensor.moyennes
-average_format: full # 'full' will display grade as "X/Y", 'short' will display "X"
 display_header: true
 compare_with_class_average: true
-compare_with_ratio: null # use a float number, e.g. '0.6' to compare with the grade / out_of ratio
+compare_with_ratio: null # use a float number, e.g. '15' to compare with the grade
 display_class_average: true
 display_class_min: true
 display_class_max: true
@@ -110,6 +110,8 @@ display_header: true
 max: null
 child_name: null
 ```
+
+## Credits
 
 Toutes ces cartes sont en grosse partie copiées de ce repo et adaptées pour Ecole Directe : https://github.com/delphiki/lovelace-pronote
 
