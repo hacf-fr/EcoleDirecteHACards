@@ -146,6 +146,10 @@ class EDDevoirCard extends BaseEDCard {
     `;
   }
 
+  setDevoir(eleve_id, devoir_id, effectue){
+    hass.callService('ecoledirecte', 'devoir_effectue', {  eleve_id: eleve_id, devoir_id: devoir_id, effectue: effectue });
+  }
+
   render() {
     if (!this.config || !this.hass) {
       return html``;
