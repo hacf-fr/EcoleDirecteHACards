@@ -41,11 +41,8 @@ class EDEvaluationsCard extends BaseEDCard {
     }
     return html`
       <span
-        title="${remappedEvaluations}"
-        class="acquisition-icon acquisition-icon-${remappedEvaluations.replace(
-          "+",
-          "plus"
-        )}"
+        title="${acquisition.descriptif}"
+        class="acquisition-icon acquisition-icon-${remappedEvaluations}"
       >
         ${icon}
       </span>
@@ -212,13 +209,13 @@ class EDEvaluationsCard extends BaseEDCard {
         line-height: 14px;
       }
       .acquisition-icon-4 {
-        background-color: #008000;
+        background-color: rgb(0, 176, 80);
       }
       .acquisition-icon-3 {
-        background-color: #45b851;
+        background-color: rgb(0, 112, 192);
       }
       .acquisition-icon-2 {
-        background-color: #ffda01;
+        background-color: rgb(255, 192, 0);
       }
       .acquisition-icon-1 {
         background-color: #f80a0a;
