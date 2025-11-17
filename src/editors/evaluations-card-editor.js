@@ -44,11 +44,6 @@ class EDEvaluationsCardEditor extends BaseEDCardEditor {
         "display_comment",
         this._config.display_comment
       )}
-      ${this.buildSwitchField(
-        "Display coefficient",
-        "display_coefficient",
-        this._config.display_coefficient
-      )}
       ${this.buildNumberField(
         "Max evaluations",
         "max_evaluations",

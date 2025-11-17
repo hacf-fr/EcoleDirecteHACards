@@ -148,69 +148,73 @@ class EDDevoirCard extends BaseEDCard {
 
   render() {
     if (!this.config || !this.hass) {
-      return html``;
+      return html`<div class="ed-card-no-data">
+        Veuillez configurer la carte
+      </div>`;
     }
 
     const stateObj = this.hass.states[this.config.entity];
-    const devoir = this.hass.states[this.config.entity].attributes["Devoirs"];
 
     if (stateObj) {
-      const itemTemplates = [];
-      let dayTemplates = [];
-      let daysCount = 0;
+      const devoir = stateObj.attributes["Devoirs"];
+      if (devoir) {
+        const itemTemplates = [];
+        let dayTemplates = [];
+        let daysCount = 0;
 
-      if (devoir && devoir.length > 0) {
-        if (devoir[0].Erreur) {
-          return html`<div class="ed-card-no-data">${devoir[0].Erreur}</div>`;
-        }
-        let latestdevoirDay = this.getFormattedDate(devoir[0].date);
-        for (let index = 0; index < devoir.length; index++) {
-          let hw = devoir[index];
-          let currentFormattedDate = this.getFormattedDate(hw.date);
-
-          if (
-            hw.effectue === true &&
-            this.config.display_done_devoir === false
-          ) {
-            continue;
+        if (devoir && devoir.length > 0) {
+          if (devoir[0].Erreur) {
+            return html`<div class="ed-card-no-data">${devoir[0].Erreur}</div>`;
           }
+          let latestdevoirDay = this.getFormattedDate(devoir[0].date);
+          for (let index = 0; index < devoir.length; index++) {
+            let hw = devoir[index];
+            let currentFormattedDate = this.getFormattedDate(hw.date);
 
-          // if devoir for a new day
-          if (latestdevoirDay !== currentFormattedDate) {
-            // if previous day has lessons
-            if (dayTemplates.length > 0) {
-              itemTemplates.push(
-                this.getDayRow(devoir[index - 1], dayTemplates, daysCount)
-              );
-              dayTemplates = [];
+            if (
+              hw.effectue === true &&
+              this.config.display_done_devoir === false
+            ) {
+              continue;
             }
 
-            latestdevoirDay = currentFormattedDate;
-            daysCount++;
+            // if devoir for a new day
+            if (latestdevoirDay !== currentFormattedDate) {
+              // if previous day has lessons
+              if (dayTemplates.length > 0) {
+                itemTemplates.push(
+                  this.getDayRow(devoir[index - 1], dayTemplates, daysCount)
+                );
+                dayTemplates = [];
+              }
+
+              latestdevoirDay = currentFormattedDate;
+              daysCount++;
+            }
+
+            dayTemplates.push(this.getdevoirRow(hw, index));
           }
 
-          dayTemplates.push(this.getdevoirRow(hw, index));
+          // if there are devoir for the day and not limit on the current week or limit and current week
+          if (dayTemplates.length > 0) {
+            itemTemplates.push(
+              this.getDayRow(devoir[devoir.length - 1], dayTemplates, daysCount)
+            );
+          }
         }
 
-        // if there are devoir for the day and not limit on the current week or limit and current week
-        if (dayTemplates.length > 0) {
-          itemTemplates.push(
-            this.getDayRow(devoir[devoir.length - 1], dayTemplates, daysCount)
-          );
+        if (itemTemplates.length === 0) {
+          itemTemplates.push(this.noDataMessage());
         }
-      }
 
-      if (itemTemplates.length === 0) {
-        itemTemplates.push(this.noDataMessage());
+        return html` <ha-card
+          id="${this.config.entity}-card"
+          class="${this.config.enable_slider ? "ed-devoir-card-slider" : ""}"
+        >
+          ${this.config.display_header ? this.getCardHeader() : ""}
+          ${itemTemplates}
+        </ha-card>`;
       }
-
-      return html` <ha-card
-        id="${this.config.entity}-card"
-        class="${this.config.enable_slider ? "ed-devoir-card-slider" : ""}"
-      >
-        ${this.config.display_header ? this.getCardHeader() : ""}
-        ${itemTemplates}
-      </ha-card>`;
     }
 
     return html`<div class="ed-card-no-data">

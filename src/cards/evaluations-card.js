@@ -53,7 +53,7 @@ class EDEvaluationsCard extends BaseEDCard {
   }
 
   getEvaluationRow(evaluation, index) {
-    let acquisitions = evaluation.acquisitions;
+    let acquisitions = evaluation.elements_programme;
     let acquisitionIcons = [];
     let acquisitionsRows = [];
     let lesson_background_color = "grey";
@@ -81,11 +81,6 @@ class EDEvaluationsCard extends BaseEDCard {
                 >${this.getFormattedDate(evaluation.date)}</span
               >`
             : ""}
-          ${this.config.display_coefficient && evaluation.coefficient
-            ? html`<span class="evaluation-coefficient"
-                >Coef. ${evaluation.coefficient}</span
-              >`
-            : ""}
         </td>
         <td class="evaluation-detail">${acquisitionIcons}</td>
       </tr>
@@ -104,6 +99,9 @@ class EDEvaluationsCard extends BaseEDCard {
       const itemTemplates = [];
 
       for (let index = 0; index < max_evaluations; index++) {
+        if (index >= evaluations.length) {
+          break;
+        }
         let evaluation = evaluations[index];
         evaluationsRows.push(
           // this.getEvaluationRow(evaluation, index, lessons_colors)
@@ -134,7 +132,6 @@ class EDEvaluationsCard extends BaseEDCard {
       display_teacher: true,
       display_date: true,
       display_comment: true,
-      display_coefficient: true,
       max_evaluations: null,
       mapping_evaluations: {},
     };
@@ -214,22 +211,16 @@ class EDEvaluationsCard extends BaseEDCard {
         text-align: center;
         line-height: 14px;
       }
-      .acquisition-icon-Aplus {
+      .acquisition-icon-4 {
         background-color: #008000;
       }
-      .acquisition-icon-A {
+      .acquisition-icon-3 {
         background-color: #45b851;
       }
-      .acquisition-icon-B {
-        background-color:;
-      }
-      .acquisition-icon-C {
+      .acquisition-icon-2 {
         background-color: #ffda01;
       }
-      .acquisition-icon-D {
-        background-color: #f80a0a;
-      }
-      .acquisition-icon-E {
+      .acquisition-icon-1 {
         background-color: #f80a0a;
       }
       .acquisition-row {
@@ -259,7 +250,6 @@ class EDEvaluationsCard extends BaseEDCard {
       display_teacher: true,
       display_date: true,
       display_comment: true,
-      display_coefficient: true,
       max_evaluations: null,
       mapping_evaluations: {},
     };
