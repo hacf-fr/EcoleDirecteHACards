@@ -106,7 +106,7 @@ class BaseEDCardEditor extends LitElement {
   }
 
   buildEntityPickerField(label, config_key, value, filter) {
-    const entityFilter = new RegExp("ed_[a-z]+_[a-z]+_" + filter);
+    const entityFilter = new RegExp("ed_(.*)_" + filter);
 
     return html`
       <ha-entity-picker
