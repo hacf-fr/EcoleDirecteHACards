@@ -94,7 +94,6 @@ display_description: true
 display_teacher: true
 display_date: true
 display_comment: true
-display_coefficient: true
 max_evaluations: null
 child_name: null
 ```

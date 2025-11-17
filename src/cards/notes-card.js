@@ -103,10 +103,9 @@ class EDGradesCard extends BaseEDCard {
 
   getCardContent() {
     const stateObj = this.hass.states[this.config.entity];
-    const grades = this.getItems();
-    const max_grades = this.config.max_grades ?? grades.length;
-
     if (stateObj) {
+      const grades = this.getItems();
+      const max_grades = this.config.max_grades ?? grades.length;
       const gradesRows = [];
       const itemTemplates = [];
 

@@ -194,122 +194,128 @@ class EDTimetableCard extends BaseEDCard {
   // we override the render method to return the card content
   render() {
     if (!this.config || !this.hass) {
-      return html``;
+      return html`<div class="ed-card-no-data">
+        Veuillez configurer la carte
+      </div>`;
     }
 
     const stateObj = this.hass.states[this.config.entity];
 
-    const lessons =
-      this.hass.states[this.config.entity].attributes["Emploi du temps"];
-
     if (stateObj) {
-      this.lunchBreakRendered = false;
+      const lessons = stateObj.attributes["Emploi du temps"];
 
-      const itemTemplates = [];
-      let dayTemplates = [];
-      let daysCount = 0;
+      if (lessons) {
+        this.lunchBreakRendered = false;
 
-      let dayStartAt = null;
-      let dayEndAt = null;
+        const itemTemplates = [];
+        let dayTemplates = [];
+        let daysCount = 0;
 
-      let now = new Date();
-      let activeDay = 0;
+        let dayStartAt = null;
+        let dayEndAt = null;
 
-      for (let index = 0; index < lessons.length; index++) {
-        let lesson = lessons[index];
-        let currentFormattedDate = this.getFormattedDate(lesson);
-        let endOfDay = new Date(lesson.end_at);
+        let now = new Date();
+        let activeDay = 0;
 
-        if (!lesson.isAnnule) {
-          if (dayStartAt === null) {
-            dayStartAt = lesson.start_at;
+        for (let index = 0; index < lessons.length; index++) {
+          let lesson = lessons[index];
+          let currentFormattedDate = this.getFormattedDate(lesson);
+          let endOfDay = new Date(lesson.end_at);
+
+          if (!lesson.isAnnule) {
+            if (dayStartAt === null) {
+              dayStartAt = lesson.start_at;
+            }
+            dayEndAt = lesson.end_at;
           }
-          dayEndAt = lesson.end_at;
-        }
 
-        if (lesson.isAnnule && index < lessons.length - 1) {
-          let nextLesson = lessons[index + 1];
-          if (lesson.start_at === nextLesson.start_at && !nextLesson.isAnnule) {
-            continue;
+          if (lesson.isAnnule && index < lessons.length - 1) {
+            let nextLesson = lessons[index + 1];
+            if (lesson.start_at === nextLesson.start_at && !nextLesson.isAnnule) {
+              continue;
+            }
           }
-        }
 
-        dayTemplates.push(this.getTimetableRow(lesson));
+          dayTemplates.push(this.getTimetableRow(lesson));
 
-        // checking if next lesson is on another day
-        if (
-          index + 1 >= lessons.length ||
-          (index + 1 < lessons.length &&
-            currentFormattedDate !== this.getFormattedDate(lessons[index + 1]))
-        ) {
+          // checking if next lesson is on another day
           if (
-            this.config.enable_slider &&
-            this.config.switch_to_next_day &&
-            isSameDay(endOfDay, now) &&
-            endOfDay < now
+            index + 1 >= lessons.length ||
+            (index + 1 < lessons.length &&
+              currentFormattedDate !== this.getFormattedDate(lessons[index + 1]))
           ) {
-            activeDay = daysCount + 1;
-          }
+            if (
+              this.config.enable_slider &&
+              this.config.switch_to_next_day &&
+              isSameDay(endOfDay, now) &&
+              endOfDay < now
+            ) {
+              activeDay = daysCount + 1;
+            }
 
-          itemTemplates.push(html`
-            <div
-              class="${this.config.enable_slider
-                ? "slider-enabled"
-                : ""} ed-timetable-day-wrapper ${daysCount === activeDay
-                ? "active"
-                : ""}"
-            >
-              ${this.getDayHeader(lesson, dayStartAt, dayEndAt, daysCount)}
-              <table>
-                ${dayTemplates}
-              </table>
-            </div>
-          `);
-          dayTemplates = [];
+            itemTemplates.push(html`
+              <div
+                class="${this.config.enable_slider
+                  ? "slider-enabled"
+                  : ""} ed-timetable-day-wrapper ${daysCount === activeDay
+                  ? "active"
+                  : ""}"
+              >
+                ${this.getDayHeader(lesson, dayStartAt, dayEndAt, daysCount)}
+                <table>
+                  ${dayTemplates}
+                </table>
+              </div>
+            `);
+            dayTemplates = [];
 
-          this.lunchBreakRendered = false;
-          dayStartAt = null;
-          dayEndAt = null;
+            this.lunchBreakRendered = false;
+            dayStartAt = null;
+            dayEndAt = null;
 
-          daysCount++;
-        } else if (
-          this.config.display_free_time_slots &&
-          index + 1 < lessons.length
-        ) {
-          const currentEndAt = new Date(lesson.end_at);
-          const nextLesson = lessons[index + 1];
-          const nextLessonStartAt = new Date(nextLesson.start_at);
-          if (
-            lesson.is_morning === nextLesson.is_morning &&
-            Math.floor((nextLessonStartAt - currentEndAt) / 1000 / 60) > 30
+            daysCount++;
+          } else if (
+            this.config.display_free_time_slots &&
+            index + 1 < lessons.length
           ) {
-            const now = new Date();
-            dayTemplates.push(
-              this.getBreakRow(
-                "Pas de cours",
-                this.config.dim_ended_lessons && nextLessonStartAt < now
-              )
-            );
+            const currentEndAt = new Date(lesson.end_at);
+            const nextLesson = lessons[index + 1];
+            const nextLessonStartAt = new Date(nextLesson.start_at);
+            if (
+              lesson.is_morning === nextLesson.is_morning &&
+              Math.floor((nextLessonStartAt - currentEndAt) / 1000 / 60) > 30
+            ) {
+              const now = new Date();
+              dayTemplates.push(
+                this.getBreakRow(
+                  "Pas de cours",
+                  this.config.dim_ended_lessons && nextLessonStartAt < now
+                )
+              );
+            }
           }
         }
-      }
 
-      if (dayTemplates.length > 0) {
-        itemTemplates.push(
-          html`<table>
-            ${dayTemplates}
-          </table>`
-        );
-      }
+        if (dayTemplates.length > 0) {
+          itemTemplates.push(
+            html`<table>
+              ${dayTemplates}
+            </table>`
+          );
+        }
 
-      return html` <ha-card
-        id="${this.config.entity}-card"
-        class="${this.config.enable_slider ? "ed-timetable-card-slider" : ""}"
-      >
-        ${this.config.display_header ? this.getCardHeader() : ""}
-        ${itemTemplates}
-      </ha-card>`;
+        return html` <ha-card
+          id="${this.config.entity}-card"
+          class="${this.config.enable_slider ? "ed-timetable-card-slider" : ""}"
+        >
+          ${this.config.display_header ? this.getCardHeader() : ""}
+          ${itemTemplates}
+        </ha-card>`;
+      }
     }
+    return html`<div class="ed-card-no-data">
+      Veuillez choisir une autre entité
+    </div>`;
   }
 
   setConfig(config) {
