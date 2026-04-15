@@ -1,3 +1,8 @@
+
+> ⚠️ Ce dépôt est obsolète et va être archivé. Il n'est plus activement maintenu.
+> 
+> A présents, les cartes sont directement dans l'intégration : https://github.com/hacf-fr/hass-ecoledirecte
+
 # EcoleDirecteHACards - Cartes pour l'intégration Ecole Directe
 
 Cartes pour afficher des informations de l'intégration [Ecole Directe](https://github.com/hacf-fr/hass-ecoledirecte)
